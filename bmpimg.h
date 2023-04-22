@@ -10,11 +10,18 @@
 #include <math.h>
 #include <complex.h>
 
-#define IMG_WIDTH 1500
-#define IMG_HEIGHT 1500
-#define func(z) cpow(M_E, ccos(z))
+#define IMG_WIDTH 1648
+#define IMG_HEIGHT 1648
+#define MAX_ITER 256
+#define func(z) ccos(z) + csin(z) * cabs(z)
+//(0.4*cpow((z), 5) + 3 * cpow(z, 3) - cpow(z, 2) + 5*z)
+//z*cexp(I * 2 * carg(z))
+//cpow(M_E, I*carg(z))
+//cos(cimag(z))+I*csin((creal(z))) //grid
+//cpow(z, 2) + 1
+//cpow(M_E, ccos(z))
 //(((cpow(z, 2) - 1)*cpow(z - 2 - I, 2))/(cpow(z, 2) + 2 + 2*I))
-#define SCALE 100
+#define SCALE 800
 
 #pragma pack(push, 1)
 typedef struct {
@@ -49,7 +56,7 @@ typedef struct {
 void* init_bmp();
 RGBTRIPLE plot_px(_Complex double num);
 double* px_to_cart(double px[2], unsigned int origin[2], double scale_fact);
-_Complex double mandelbrot(_Complex double num, _Complex double c, int counter);
+_Complex double mandelbrot(_Complex double c);
 _Complex double integral(void* func, double a, double b, double dx);
 _Complex double gamma(_Complex double z);
 _Complex double gamma_int(_Complex double z);

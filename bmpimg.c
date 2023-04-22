@@ -33,12 +33,6 @@ void* init_bmp(){
 RGBTRIPLE plot_px(_Complex double num){
     double mag = cabs(num);
     double argz = carg(num);
-    /*
-    mag < 1 ? mag = 1 : mag;
-    mag = 2 * pow(log(mag), 2);
-    mag > 255 ? mag = 255 : mag;
-    mag /= 255;
-     */
 
     mag = -1.0/(mag + 1) + 1;
 
@@ -58,11 +52,18 @@ double* px_to_cart(double px[2], unsigned int origin[2], double scale_fact){
     return px;
 }
 
-_Complex double mandelbrot(_Complex double num, _Complex double c, int counter){
-    num = cpow(num, 2) + c;
-    if(counter == 0)
-        return num;
-    return mandelbrot(num, c, --counter);
+_Complex double mandelbrot(_Complex double c){
+    RGBTRIPLE pixel;
+    _Complex double z = 0;
+    int n = 0;
+    while(cabs(z) <= 2 && n < MAX_ITER){
+        z = cpow(z, 2) + c;
+        n++;
+    }
+    if(n == MAX_ITER)
+        return 0.0;
+
+    else return z;
 }
 
 _Complex double gamma_int(_Complex double z){
