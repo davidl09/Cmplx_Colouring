@@ -10,10 +10,11 @@
 #include <math.h>
 #include <complex.h>
 
-#define IMG_WIDTH 1648
-#define IMG_HEIGHT 1648
+#define IMG_WIDTH 2000
+#define IMG_HEIGHT 2000
 #define MAX_ITER 256
-#define func(z) ccos(z) + csin(z) * cabs(z)
+#define func(z) (0.4*cpow((z), 5) + 3 * cpow(z, 3) - cpow(z, 2) + 5*z)/(cpow(I*z, 5))
+//csin(3*carg(cexp(I *  (cabs(z) - carg(z))))) * cexp(I *  (cabs(z) - carg(z))) //spiral
 //(0.4*cpow((z), 5) + 3 * cpow(z, 3) - cpow(z, 2) + 5*z)
 //z*cexp(I * 2 * carg(z))
 //cpow(M_E, I*carg(z))
@@ -21,7 +22,7 @@
 //cpow(z, 2) + 1
 //cpow(M_E, ccos(z))
 //(((cpow(z, 2) - 1)*cpow(z - 2 - I, 2))/(cpow(z, 2) + 2 + 2*I))
-#define SCALE 800
+#define SCALE 100
 
 #pragma pack(push, 1)
 typedef struct {
