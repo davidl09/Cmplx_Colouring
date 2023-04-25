@@ -1,10 +1,10 @@
 #include "bmpimg.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     FILE* fp = init_bmp();
 
     double px[2];
-    unsigned int origin[2] = {IMG_WIDTH/2, IMG_HEIGHT/2};
+    unsigned int origin[2] = {2*IMG_WIDTH/3, IMG_HEIGHT/2};
     _Complex double z;
     RGBTRIPLE** image = malloc(IMG_HEIGHT * IMG_WIDTH * sizeof(RGBTRIPLE));
 
@@ -15,7 +15,8 @@ int main() {
             px[1] = i;
             px_to_cart(px, origin, SCALE); //changes values in px array to cartesian coordinates
             z = I*px[1]+px[0];
-            image[i][j] = plot_px(func(z));
+            //image[i][j] = plot_px(func(z));
+            image[i][j] = mandelbrot(z);
         }
         fwrite(image[i], IMG_WIDTH * sizeof(RGBTRIPLE), 1, fp);
         for (unsigned int k = 0; k < (4 - (IMG_WIDTH * sizeof(RGBTRIPLE)) % 4) % 4; k++) {
@@ -24,4 +25,5 @@ int main() {
     }
     free(image);
     fclose(fp);
+    
 }

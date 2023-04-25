@@ -52,8 +52,7 @@ double* px_to_cart(double px[2], unsigned int origin[2], double scale_fact){
     return px;
 }
 
-_Complex double mandelbrot(_Complex double c){
-    RGBTRIPLE pixel;
+RGBTRIPLE mandelbrot(_Complex double c){
     _Complex double z = 0;
     int n = 0;
     while(cabs(z) <= 2 && n < MAX_ITER){
@@ -61,21 +60,25 @@ _Complex double mandelbrot(_Complex double c){
         n++;
     }
     if(n == MAX_ITER)
-        return 0.0;
+        return (RGBTRIPLE){0, 0, 0};
 
-    else return z;
+    return (RGBTRIPLE){255 - n, 125 - n/2, 0};
 }
 
-_Complex double zeta(_Complex double z){
-    for (int i = 0; i < 1000; ++i) {
-
+double complex gamma_(double complex z) {
+if (creal(z) < 0.5) {
+        // Use reflection formula for better accuracy for small real parts
+        return M_PI / (csin(M_PI * z) * gamma(1.0 - z));
     }
-}
-
-_Complex double integral(void* func, double a, double b, double dx){
-    unsigned long int count = (unsigned long int)((b-a)/dx);
-    for (int i = 0; i < count; ++i) {
-
+    
+    double complex result = 1.0;
+    while (creal(z) < 10.0) {
+        // Incrementally multiply with terms of the product formula
+        result *= z;
+        z += 1.0;
     }
-}
 
+    // Compute the gamma function using the product formula
+    result *= cexp(-z * clog(z) + z - 0.5 * clog(2.0 * M_PI / z));
+    return result;
+}
